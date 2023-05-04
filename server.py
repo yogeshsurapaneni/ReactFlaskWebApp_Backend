@@ -1,6 +1,9 @@
 from flask import Flask
+from waitress import serve
 import platform
 import psutil
+
+
 
 app = Flask(__name__)
 
@@ -11,7 +14,8 @@ def host():
 
     hostname=platform.node()
     ram=psutil.virtual_memory().percent
-    return {"host":[hostname,ram]}
+    final_ret = {"hostname": hostname, "ram": ram}
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    return final_ret
+if __name__ == "__main__": 
+    serve(app, host='0.0.0.0', port=5000)
